@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class Violation {
     @Id
     @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private LocalDateTime timestamp;
@@ -22,14 +23,20 @@ public class Violation {
     private String helmetStatus;
     @Column(name = "image_location")
     private String imageLocation;
+    @Column(name = "image_name")
+    private String imageName;
+
     @JoinColumn(name = "device_id")
     @ManyToOne
     private Camera camera;
 
-    public Violation(LocalDateTime timestamp, String helmetStatus, String imageLocation, Camera camera) {
+
+    public Violation(LocalDateTime timestamp, String helmetStatus, String imageLocation, String imageName, Camera camera) {
         this.timestamp = timestamp;
         this.helmetStatus = helmetStatus;
         this.imageLocation = imageLocation;
+        this.imageName = imageName;
         this.camera = camera;
     }
+
 }

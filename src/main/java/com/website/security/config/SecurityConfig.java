@@ -50,7 +50,9 @@ public class SecurityConfig {
                 .securityMatcher(
                         "/api/**",
                         "/login/**",               // 기존 로그인
-                        "/favicon.ico"
+                        "/favicon.ico",
+                        "/download/**",
+                        "/error"
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfig()))
@@ -59,7 +61,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/**",
                                 "/login/**",
-                                "/favicon.ico"
+                                "/favicon.ico",
+                                "/download/**",
+                                "/error"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

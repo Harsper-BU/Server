@@ -14,9 +14,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.upload-dir}")
     private String uploadDir;
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/uploads/**")  //어떤 경로로 요청이 들어오는 것을
-                .addResourceLocations("file:/"+uploadDir);     //여기서 찾겠다
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/download/**")
+                .addResourceLocations("file:///" + uploadDir.replace("\\", "/") + "/");
     }
     @Bean
     public RestTemplate restTemplate(){

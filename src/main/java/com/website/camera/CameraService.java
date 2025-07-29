@@ -31,10 +31,13 @@ public class CameraService {
         for(Camera c : cameras){
             try {
                 ResponseEntity<String> res = restTem.getForEntity(c.getIpAddress(), String.class);
-                c.setStatus(res.getStatusCode().is2xxSuccessful() ? "activate" : "deactivate");
+                c.setStatus(res.getStatusCode().is2xxSuccessful() ? "on" : "off");
                 c.setLastUpdate(LocalDateTime.now());
             } catch (Exception e){
-                System.out.println("??");
+                System.out.println(c.getDeviceId()+" 카메라와 연결을 실패했습니다.");
+                System.out.println(e.getMessage());
+                c.setStatus("off");
+                c.setLastUpdate(LocalDateTime.now());
             }
         }
         cameraRepository.saveAll(cameras);

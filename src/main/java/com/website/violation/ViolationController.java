@@ -24,8 +24,11 @@ public class ViolationController {
     }
 
     @PostMapping    //뭐 받지?
-    public void insertViolationData(ViolationDto violationDto){
+    public ResponseEntity<String> insertViolationData(@RequestBody ViolationDto violationDto){
+        System.out.println("왔다");
+        System.out.println(violationDto);
         simpMessagingTemplate.convertAndSend("/sub/violation-alert", violationDto);
         violationService.insertViolationData(violationDto);
+        return ResponseEntity.ok().body("ㅋㅋ성공했노");
     }
 }
